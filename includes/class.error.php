@@ -2,10 +2,7 @@
 
 namespace LMS;
 
-$handler = new ErrorHandler(true);
-$handler->register();
-
-class ErrorHandler {
+class error_handler {
 	private $debug;
 
 	function __construct($debug = false) {
@@ -43,10 +40,13 @@ class ErrorHandler {
 
 	protected function error($message, $file, $line) {
 		http_response_code(500);
-		die(json_encode(compact('message', 'file', 'line')));
+		die("$message in $file on line #$line");
 	}
 
-	protected function warning($error, $file, $line) {}
+	protected function warning($message, $file, $line) {
+		echo "$message\n$file:$line\n";
+		if ($this->debug) debug_print_backtrace();
+	}
 
-	protected function notice($error, $file, $line) {}
+	protected function notice($message, $file, $line) {}
 }

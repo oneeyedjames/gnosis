@@ -1,0 +1,11 @@
+{
+	"course": {
+		"aliases": ["courses"]
+	},
+	"module": {
+		"aliases": ["modules"]
+	},
+	"lesson": {
+		"aliases": ["lessons"]
+	}
+}

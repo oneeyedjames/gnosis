@@ -1,0 +1,19 @@
+{
+	"name": "ascott/lms",
+	"type": "project",
+	"authors": [
+		{
+			"name": "J Andrew Scott",
+			"email": "jascott@programmer.net"
+		}
+	],
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/oneeyedjames/phpunk"
+		}
+	],
+	"require": {
+		"oneeyedjames/phpunk": "dev-master"
+	}
+}
