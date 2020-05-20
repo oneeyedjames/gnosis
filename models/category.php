@@ -2,10 +2,10 @@
 
 namespace LMS\Model;
 
-class CategoryModel extends EntityModel {
-	function __construct($data = []) {
-		parent::__construct('category', $data);
-	}
+use LMS\model;
 
-	function validate() { return true; }
+class category_model extends model {
+	function __construct($database, $cache) {
+		parent::__construct('category', $database, $cache);
+	}
 }

@@ -2,19 +2,18 @@
 
 namespace LMS\Model;
 
-class LessonModel extends EntityModel {
-	use TitleEntity;
+use LMS\model;
 
-	function __construct($data = []) {
-		parent::__construct('lesson', $data);
+class lesson_model extends model {
+	function __construct($database, $cache) {
+		parent::__construct('lesson', $database, $cache);
 	}
 
-	function validate() {
-		if (empty($this->position))
-			$this->position = 0;
+	function get_for_module($module_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
+		$args = compact('limit', 'offset');
+		$args['args'] = compact('module_id');
+		$args['sort']['position'] = 'asc';
 
-		$this->createAlias();
-
-		return true;
+		return $this->get_result($args);
 	}
 }

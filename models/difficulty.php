@@ -2,10 +2,10 @@
 
 namespace LMS\Model;
 
-class DifficultyModel extends EntityModel {
-	function __construct($data = []) {
-		parent::__construct('difficulty', $data);
-	}
+use LMS\model;
 
-	function validate() { return true; }
+class difficulty_model extends model {
+	function __construct($database, $cache) {
+		parent::__construct('difficulty', $database, $cache);
+	}
 }

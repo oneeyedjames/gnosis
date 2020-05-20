@@ -2,42 +2,19 @@
 
 namespace LMS\Model;
 
-class ModuleModel extends EntityModel {
-	use TitleEntity, BadgeEntity;
+use LMS\model;
 
-	function __construct($data = []) {
-		parent::__construct('module', $data);
+class module_model extends model {
+	function __construct($database, $cache) {
+		parent::__construct('module', $database, $cache);
 	}
 
-	function validate() {
-		$this->setDefaults();
-		$this->createAlias();
+	function get_for_course($course_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
+		$args = compact('limit', 'offset');
+		$args['bridge'] = 'cm_module';
+		$args['args']['cm_course'] = $course_id;
+		$args['sort']['position']  = 'asc';
 
-		return true;
-	}
-
-	function getLessons() {
-		$query = 'SELECT `l`.* FROM `module` AS `m`
-			LEFT JOIN `lesson` AS `l` ON `l`.`module_id` = `m`.`id`';
-
-		$values = [];
-
-		if (isset($this->id)) {
-			$query .= " WHERE `m`.`id` = ?";
-			$values[] = $this->id;
-		} elseif (isset($this->alias)) {
-			$query .= " WHERE `m`.`alias` = ?";
-			$values[] = $this->alias;
-		}
-
-		$query .= ' ORDER BY `l`.`position` ASC';
-
-		if (($result = self::query($query, $values)) !== false) {
-			return array_map(function($record) {
-				return new LessonModel($record);
-			}, $result);
-		}
-
-		return false;
+		return $this->get_result($args);
 	}
 }
