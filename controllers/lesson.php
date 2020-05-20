@@ -2,14 +2,23 @@
 
 namespace LMS\Controller;
 
-use LMS\Model\LessonModel;
+use PHPunk\Util\object;
 
-class LessonController extends EntityController {
-	protected function getBaseRoute() {
-		return '/lessons';
-	}
+use LMS\controller;
 
-	protected function getModel($data = []) {
-		return new LessonModel($data);
+use function LMS\get_offset;
+
+class lesson_controller extends controller {
+	function api_index_view($get, $post) {
+		$get = new object($get);
+
+		$limit = $get->per_page(DEFAULT_PER_PAGE);
+		$offset = get_offset($get->page(DEFAULT_PAGE), $limit);
+
+		if ($module_id = $get->filter['module']) {
+			return $this->get_for_module($module_id, $limit, $offset);
+		} else {
+			return $this->get_result(compact('limit', 'offset'));
+		}
 	}
 }

@@ -2,32 +2,40 @@
 
 namespace LMS\Controller;
 
-use LMS\Model\ModuleModel;
+use PHPunk\Util\object;
 
-class ModuleController extends EntityController {
-	protected function getBaseRoute() {
-		return '/modules';
+use LMS\controller;
+
+use function LMS\get_offset;
+
+class module_controller extends controller {
+	function api_index_view($get, $post) {
+		$get = new object($get);
+
+		$limit = $get->per_page(DEFAULT_PER_PAGE);
+		$offset = get_offset($get->page(DEFAULT_PAGE), $limit);
+
+		if ($course_id = $get->filter['course']) {
+			return $this->get_for_course($course_id, $limit, $offset);
+		} else {
+			return $this->get_result(compact('limit', 'offset'));
+		}
 	}
 
-	protected function getModel($data = []) {
-		return new ModuleModel($data);
+	function api_item_view($get, $post) {
+		$get = new object($get);
+
+		if (isset($get->id)) {
+			return $this->get_record($get->id);
+		}
 	}
 
-	function getRoutes() {
-		$itemRoute = $this->getItemRoute();
-
-		$routes = parent::getRoutes();
-		$routes['GET']["$itemRoute/lessons"] = 'getLessons';
-
-		return $routes;
-	}
-
-	function getLessons($params) {
-		$module = new ModuleModel();
-		$module->unique_key = $params->route_key;
-
-		$lessons = $module->getLessons();
-
-		die(json_encode($lessons));
-	}
+	// function getLessons($params) {
+	// 	$module = new ModuleModel();
+	// 	$module->unique_key = $params->route_key;
+	//
+	// 	$lessons = $module->getLessons();
+	//
+	// 	die(json_encode($lessons));
+	// }
 }

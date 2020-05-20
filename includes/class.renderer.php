@@ -11,7 +11,7 @@ class renderer extends renderer_base {
 	public static function load($resource = false) {
 		if ($resource) {
 			if (!isset(self::$_renderers[$resource])) {
-				$class = "{$resource}_renderer";
+				$class = "\\LMS\\Renderer\\{$resource}_renderer";
 
 				if (class_exists($class))
 					self::$_renderers[$resource] = new $class();
@@ -41,5 +41,19 @@ class renderer extends renderer_base {
 
 	protected function build_url($params) {
 		return init_url()->build($params);
+	}
+
+	protected function create_response($record) {
+		$response = parent::create_response($record);
+
+		if ($embeds = $this->get_embeds($record)) {
+			$response->_embeds = $embeds;
+		}
+
+		return $response;
+	}
+
+	protected function get_embeds($record) {
+		return [];
 	}
 }

@@ -2,71 +2,69 @@
 
 namespace LMS\Controller;
 
-use LMS\Model\CourseModel;
-use LMS\Model\CategoryModel;
-use LMS\Model\DifficultyModel;
+use PHPunk\Util\object;
 
-class CourseController extends EntityController {
-	protected function getBaseRoute() {
-		return '/courses';
+use LMS\model;
+use LMS\controller;
+
+use function LMS\get_offset;
+
+class course_controller extends controller {
+	function api_index_view($get, $post) {
+		$get = new object($get);
+
+		$limit = $get->per_page(DEFAULT_PER_PAGE);
+		$offset = get_offset($get->page(DEFAULT_PAGE), $limit);
+
+		$result = $this->get_result(compact('limit', 'offset'));
+
+		$this->get_categories($result);
+		$this->get_difficulties($result);
+
+		return $result;
 	}
 
-	protected function getModel($data = []) {
-		return new CourseModel($data);
-	}
+	function api_item_view($get, $post) {
+		$get = new object($get);
 
-	function getItemLinks($item) {
-		$links = parent::getItemLinks($item);
-		$links['modules'] = [
-			'href' => $this->getBaseRoute() . "/$item->unique_key/modules"
-		];
-
-		return $links;
-	}
-
-	function getItemEmbeds($item) {
-		$embeds = parent::getItemEmbeds($item);
-
-		if ($item->category_id) {
-			$embeds['category'] = new CategoryModel();
-			$embeds['category']->id = $item->category_id;
-			$embeds['category']->getOne();
+		if ($record_id = $get->id) {
+			return $this->get_record($record_id);
 		}
-
-		if ($item->difficulty_id) {
-			$embeds['difficulty'] = new DifficultyModel();
-			$embeds['difficulty']->id = $item->difficulty_id;
-			$embeds['difficulty']->getOne();
-		}
-
-		return $embeds;
 	}
 
-	function getRoutes() {
-		$itemRoute = $this->getItemRoute();
+	protected function get_categories(&$courses) {
+		$category_ids = $courses->map(function($course) {
+			return $course->category_id;
+		})->toArray();
 
-		$routes = parent::getRoutes();
-		$routes['GET']["$itemRoute/prereqs"] = 'getPrereqs';
-		$routes['GET']["$itemRoute/modules"] = 'getModules';
+		$categories = model::load('category')->get_result([
+			'args' => [
+				'id' => $category_ids
+			]
+		])->key_map(function($category) {
+			return $category->id;
+		});
 
-		return $routes;
+		$courses->walk(function(&$course) use ($categories) {
+			$course->category = $categories[$course->category_id];
+		});
 	}
 
-	function getPrereqs($params) {
-		$course = new CourseModel();
-		$course->unique_key = $params->route_key;
+	protected function get_difficulties(&$courses) {
+		$difficulty_ids = $courses->map(function($course) {
+			return $course->difficulty_id;
+		})->toArray();
 
-		$courses = $course->getPrereqs();
+		$difficulties = model::load('difficulty')->get_result([
+			'args' => [
+				'id' => $difficulty_ids
+			]
+		])->key_map(function($difficulty) {
+			return $difficulty->id;
+		});
 
-		die(json_encode($courses));
-	}
-
-	function getModules($params) {
-		$course = new CourseModel();
-		$course->unique_key = $params->route_key;
-
-		$modules = $course->getModules();
-
-		die(json_encode($modules));
+		$courses->walk(function(&$course) use ($difficulties) {
+			$course->difficulty = $difficulties[$course->difficulty_id];
+		});
 	}
 }
