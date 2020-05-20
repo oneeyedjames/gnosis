@@ -47,9 +47,30 @@ function init_database() {
 		$mysql->select_db($db);
 
 		$database = new db_schema($mysql);
+
+		$database->add_table('category');
+		$database->add_table('difficulty');
+
 		$database->add_table('course');
 		$database->add_table('module');
 		$database->add_table('lesson');
+
+		$database->add_table('course_prereq', null);
+		$database->add_table('course_module', null);
+
+		$database->add_relation('course_category', 'category', 'course', 'category_id');
+		$database->add_relation('course_difficulty', 'difficulty', 'course', 'difficulty_id');
+
+		$database->add_relation('module_category', 'category', 'module', 'category_id');
+		$database->add_relation('module_difficulty', 'difficulty', 'module', 'difficulty_id');
+
+		$database->add_relation('lesson_module', 'module', 'lesson', 'module_id');
+
+		$database->add_relation('cp_course', 'course', 'course_prereq', 'course_id');
+		$database->add_relation('cp_prereq', 'course', 'course_prereq', 'prereq_id');
+
+		$database->add_relation('cm_course', 'course', 'course_module', 'course_id');
+		$database->add_relation('cm_module', 'module', 'course_module', 'module_id');
 
 		// $tables    = json_decode(file_get_contents(ASSET_PATH . '/json/tables.json'));
 		// $bridges   = json_decode(file_get_contents(ASSET_PATH . '/json/bridges.json'));
