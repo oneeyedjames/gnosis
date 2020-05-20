@@ -14,13 +14,9 @@ require_all(INCLUDE_PATH, [
 	'class.*.php'
 ]);
 
-require_all(ROOT_PATH, 'models/course.php');
-require_all(ROOT_PATH, 'controllers/course.php');
-
-$handler = new error_handler(true);
-$handler->register();
-
-header('Content-type: text/plain');
+require_all(ROOT_PATH, 'models/*.php');
+require_all(ROOT_PATH, 'controllers/*.php');
+require_all(ROOT_PATH, 'renderers/*.php');
 
 if (!($database = init_database()))
 	http_response_code(500);

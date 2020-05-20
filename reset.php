@@ -8,7 +8,10 @@ if ('/favicon.ico' == $_SERVER['REQUEST_URI']) {
 ini_set('default_charset', 'UTF-8');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
+set_error_handler(function($errno, $error, $file, $line) {
+	throw new ErrorException($error, 0, $errno, $file, $line);
+}, E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE);
 
 function define_constants($root) {
 	if (defined('ROOT_PATH')) return false;
@@ -25,12 +28,12 @@ function define_constants($root) {
 	return true;
 }
 
-
 if (!function_exists('require_all')) {
 	function require_all($path, $files = []) {
 		$path = rtrim($path, '/');
 
-		if (is_string($files)) $files = [$files];
+		if (is_string($files))
+			$files = array_slice(func_get_args(), 1);
 
 		if (empty($files)) $files[] = '*.php';
 
