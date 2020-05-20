@@ -2,12 +2,16 @@
 
 namespace LMS;
 
-trait title_trait {
-	function sanitize_title($title) {
-		$alias = strtolower($title);
-		$alias = preg_replace('/\s+/', '-', $alias);
-		$alias = preg_replace('/[^a-z0-9-._~]/', '', $alias);
+trait title_model {
+	public function generate_alias(&$record) {
+		return $record->alias = $this->sanitize($record->title);
+	}
 
-		return $alias;
+	private function sanitize($input) {
+		$output = strtolower($input);
+		$output = preg_replace('/\s+/', '-', $output);
+		$output = preg_replace('/[^a-z0-9-._~]/', '', $output);
+
+		return $output;
 	}
 }

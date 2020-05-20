@@ -18,8 +18,9 @@ class course_controller extends controller {
 
 		$result = $this->get_result(compact('limit', 'offset'));
 
-		$this->get_categories($result);
-		$this->get_difficulties($result);
+		$model = model::load($this->resource);
+		$model->get_categories($result);
+		$model->get_difficulties($result);
 
 		return $result;
 	}
@@ -30,41 +31,5 @@ class course_controller extends controller {
 		if ($record_id = $get->id) {
 			return $this->get_record($record_id);
 		}
-	}
-
-	protected function get_categories(&$courses) {
-		$category_ids = $courses->map(function($course) {
-			return $course->category_id;
-		})->toArray();
-
-		$categories = model::load('category')->get_result([
-			'args' => [
-				'id' => $category_ids
-			]
-		])->key_map(function($category) {
-			return $category->id;
-		});
-
-		$courses->walk(function(&$course) use ($categories) {
-			$course->category = $categories[$course->category_id];
-		});
-	}
-
-	protected function get_difficulties(&$courses) {
-		$difficulty_ids = $courses->map(function($course) {
-			return $course->difficulty_id;
-		})->toArray();
-
-		$difficulties = model::load('difficulty')->get_result([
-			'args' => [
-				'id' => $difficulty_ids
-			]
-		])->key_map(function($difficulty) {
-			return $difficulty->id;
-		});
-
-		$courses->walk(function(&$course) use ($difficulties) {
-			$course->difficulty = $difficulties[$course->difficulty_id];
-		});
 	}
 }
