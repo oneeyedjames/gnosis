@@ -21,4 +21,12 @@ class lesson_controller extends controller {
 			return $this->get_result(compact('limit', 'offset'));
 		}
 	}
+
+	function api_item_view($get, $post) {
+		$get = new object($get);
+
+		if (isset($get->id)) {
+			return $this->get_record($get->id);
+		}
+	}
 }

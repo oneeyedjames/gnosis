@@ -29,13 +29,4 @@ class module_controller extends controller {
 			return $this->get_record($get->id);
 		}
 	}
-
-	// function getLessons($params) {
-	// 	$module = new ModuleModel();
-	// 	$module->unique_key = $params->route_key;
-	//
-	// 	$lessons = $module->getLessons();
-	//
-	// 	die(json_encode($lessons));
-	// }
 }
