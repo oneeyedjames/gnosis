@@ -40,7 +40,7 @@ class renderer extends renderer_base {
 	}
 
 	protected function build_url($params) {
-		return init_url()->build($params);
+		return url_schema::load()->build($params);
 	}
 
 	protected function create_response($record) {

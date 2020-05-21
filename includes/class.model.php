@@ -5,28 +5,20 @@ namespace LMS;
 use PHPunk\Component\model as model_base;
 
 class model extends model_base {
-	private static $_default_database = false;
-	private static $_default_cache    = false;
-	private static $_default_model    = false;
+	private static $_default_cache = false;
+	private static $_default_model = false;
 
 	private static $_models = [];
 
-	private $_parent_relations = [];
-	private $_child_relations  = [];
-
-	public static function init($database = false, $cache = false) {
-		if (!self::$_default_database)
-			self::$_default_database = $database;
-
+	public static function init($cache) {
 		if (!self::$_default_cache)
 			self::$_default_cache = $cache;
 	}
 
 	public static function load($resource = false) {
-		$database = self::$_default_database;
-		$cache    = self::$_default_cache;
+		$cache = self::$_default_cache;
 
-		if (!$database)
+		if (!($database = database::load()))
 			trigger_error("No default database", E_USER_ERROR);
 
 		if ($resource) {

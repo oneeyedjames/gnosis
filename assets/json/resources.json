@@ -1,6 +1,11 @@
 {
+	"<global>": {
+		"actions": ["login", "logout", "reset-password"],
+		"views": ["login-page", "reset-password-page"]
+	},
 	"course": {
-		"aliases": ["courses"]
+		"aliases": ["courses"],
+		"actions": ["add-module", "remove-module"]
 	},
 	"module": {
 		"aliases": ["modules"]
