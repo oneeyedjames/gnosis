@@ -48,42 +48,24 @@ function init_database() {
 
 		$database = new db_schema($mysql);
 
-		$database->add_table('category');
-		$database->add_table('difficulty');
+		$tables = json_decode(file_get_contents(ASSET_PATH . '/json/tables.json'));
 
-		$database->add_table('course');
-		$database->add_table('module');
-		$database->add_table('lesson');
+		foreach ($tables as $table_name => $table_meta) {
+			$database->add_table($table_name, @$table_meta->pkey);
 
-		$database->add_table('course_prereq', null);
-		$database->add_table('course_module', null);
+			if (isset($table_meta->relations)) {
+				foreach ($table_meta->relations as $rel_name => $rel_meta) {
+					$rel_meta->ftable = $table_name;
 
-		$database->add_relation('course_category', 'category', 'course', 'category_id');
-		$database->add_relation('course_difficulty', 'difficulty', 'course', 'difficulty_id');
-
-		$database->add_relation('module_category', 'category', 'module', 'category_id');
-		$database->add_relation('module_difficulty', 'difficulty', 'module', 'difficulty_id');
-
-		$database->add_relation('lesson_module', 'module', 'lesson', 'module_id');
-
-		$database->add_relation('cp_course', 'course', 'course_prereq', 'course_id');
-		$database->add_relation('cp_prereq', 'course', 'course_prereq', 'prereq_id');
-
-		$database->add_relation('cm_course', 'course', 'course_module', 'course_id');
-		$database->add_relation('cm_module', 'module', 'course_module', 'module_id');
-
-		// $tables    = json_decode(file_get_contents(ASSET_PATH . '/json/tables.json'));
-		// $bridges   = json_decode(file_get_contents(ASSET_PATH . '/json/bridges.json'));
-		// $relations = json_decode(file_get_contents(ASSET_PATH . '/json/relations.json'));
-		//
-		// foreach ($tables as $table)
-		// 	$database->add_table($table);
-		//
-		// foreach ($bridges as $bridge)
-		// 	$database->add_table($bridge, null);
-		//
-		// foreach ($relations as $rel_name => $rel_meta)
-		// 	$database->add_relation($rel_name, $rel_meta->ptable, $rel_meta->ftable, $rel_meta->fkey);
+					$database->add_relation(
+						$rel_name,
+						$rel_meta->ptable,
+						$rel_meta->ftable,
+						$rel_meta->fkey
+					);
+				}
+			}
+		}
 	}
 
 	return $database;

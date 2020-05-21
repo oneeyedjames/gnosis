@@ -1,0 +1,106 @@
+{
+	"category": {
+		"pkey": "id"
+	},
+	"difficulty": {
+		"pkey": "id"
+	},
+	"course": {
+		"pkey": "id",
+		"relations": {
+			"course_category": {
+				"ptable": "category",
+				"fkey": "category_id"
+			},
+			"course_difficulty": {
+				"ptable": "difficulty",
+				"fkey": "difficulty_id"
+			}
+		}
+	},
+	"module": {
+		"pkey": "id",
+		"relations": {
+			"module_category": {
+				"ptable": "category",
+				"fkey": "category_id"
+			},
+			"module_difficulty": {
+				"ptable": "difficulty",
+				"fkey": "difficulty_id"
+			}
+		}
+	},
+	"lesson": {
+		"pkey": "id",
+		"relations": {
+			"lesson_module": {
+				"ptable": "module",
+				"fkey": "module_id"
+			}
+		}
+	},
+	"user": {
+		"pkey": "id"
+	},
+	"course_prereq": {
+		"relations": {
+			"cp_course": {
+				"ptable": "course",
+				"fkey": "course_id"
+			},
+			"cp_prereq": {
+				"ptable": "course",
+				"fkey": "prereq_id"
+			}
+		}
+	},
+	"course_module": {
+		"relations": {
+			"cm_course": {
+				"ptable": "course",
+				"fkey": "course_id"
+			},
+			"cm_module": {
+				"ptable": "module",
+				"fkey": "module_id"
+			}
+		}
+	},
+	"user_course": {
+		"relations": {
+			"uc_course": {
+				"ptable": "course",
+				"fkey": "course_id"
+			},
+			"uc_user": {
+				"ptable": "user",
+				"fkey": "user_id"
+			}
+		}
+	},
+	"user_module": {
+		"relations": {
+			"um_module": {
+				"ptable": "module",
+				"fkey": "module_id"
+			},
+			"um_user": {
+				"ptable": "user",
+				"fkey": "user_id"
+			}
+		}
+	},
+	"user_lesson": {
+		"relations": {
+			"ul_lesson": {
+				"ptable": "lesson",
+				"fkey": "lesson_id"
+			},
+			"ul_user": {
+				"ptable": "user",
+				"fkey": "user_id"
+			}
+		}
+	}
+}
