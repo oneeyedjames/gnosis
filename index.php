@@ -5,52 +5,61 @@ namespace LMS;
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/reset.php';
 
-define_constants(__DIR__);
-
 require_all(INCLUDE_PATH, [
 	'func.*.php',
 	'trait.*.php',
 	'class.*.php'
 ]);
 
-require_all(ROOT_PATH, 'models/*.php');
-require_all(ROOT_PATH, 'controllers/*.php');
-require_all(ROOT_PATH, 'renderers/*.php');
+require_all(ROOT_PATH, [
+	'models/*.php',
+	'controllers/*.php',
+	'renderers/*.php'
+]);
 
 use PHPunk\cache;
 use PHPunk\Util\object;
 
-
+$resources = json_decode(file_get_contents(ASSET_PATH . '/json/resources.json'));
+url_schema::init(REQUEST_HOST, $resources);
 
 $mysql = new object();
-
-if (is_file($config = CONFIG_PATH . '/mysql.php'))
-	require $config;
-
+if (is_file($config = CONFIG_PATH . '/mysql.php')) require $config;
 $tables = json_decode(file_get_contents(ASSET_PATH . '/json/tables.json'));
 database::init($mysql, $tables);
 
-
-
-$resources = json_decode(file_get_contents(ASSET_PATH . '/json/resources.json'));
-url_schema::init($_SERVER['HTTP_HOST'], $resources);
+model::init(new cache());
 
 
 
-$url_path   = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$url_params = url_schema::load()->parse_path($url_path);
-
-foreach ($url_params as $key => $value)
+$params = url_schema::load()->parse_path(REQUEST_PATH);
+foreach ($params as $key => $value)
 	$_GET[$key] = $_REQUEST[$key] = $value;
 
 $_GET['ajax'] = $_REQUEST['ajax'] = @$_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 
+switch (REQUEST_METHOD) {
+	case 'POST':
+	case 'PUT':
+		$data = file_get_contents('php://input');
 
+		switch (REQUEST_TYPE) {
+			case 'application/json':
+				$data = json_decode($data, true);
 
-model::init(new cache());
+				foreach ($data as $key => $value) {
+					$_POST[$key] = $value;
+				}
+
+				break;
+		}
+
+		break;
+}
 
 define('IS_LOGIN', 'login' == get_action() || 'login-form' == get_view());
-// define('SESSION_USER_ID', init_session());
+
+
 
 if ($action = get_action()) {
 	$params = controller::load(get_resource())->do_action($action);
@@ -80,7 +89,7 @@ if (is_api()) {
 
 	if ($resource = get_resource()) {
 		if (!($view = get_view()))
-			$view = get_resource_id() ? 'item' : 'index';
+			$view = get_record_id() ? 'item' : 'index';
 
 		var_dump('VIEW', $resource, $view);
 		// $template->load($view, $resource);

@@ -13,20 +13,19 @@ set_error_handler(function($errno, $error, $file, $line) {
 	throw new ErrorException($error, 0, $errno, $file, $line);
 }, E_USER_ERROR | E_USER_WARNING | E_USER_NOTICE);
 
-function define_constants($root) {
-	if (defined('ROOT_PATH')) return false;
+define('ROOT_PATH',     __DIR__);
+define('ASSET_PATH',    ROOT_PATH . '/assets');
+define('CONFIG_PATH',   ROOT_PATH . '/configs');
+define('INCLUDE_PATH',  ROOT_PATH . '/includes');
+define('TEMPLATE_PATH', ROOT_PATH . '/templates');
 
-	define('ROOT_PATH',     $root);
-	define('ASSET_PATH',    ROOT_PATH . '/assets');
-	define('CONFIG_PATH',   ROOT_PATH . '/configs');
-	define('INCLUDE_PATH',  ROOT_PATH . '/includes');
-	define('TEMPLATE_PATH', ROOT_PATH . '/templates');
+define('DEFAULT_PAGE',      1);
+define('DEFAULT_PER_PAGE', 12);
 
-	define('DEFAULT_PAGE',      1);
-	define('DEFAULT_PER_PAGE', 12);
-
-	return true;
-}
+define('REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
+define('REQUEST_HOST', $_SERVER['HTTP_HOST']);
+define('REQUEST_PATH', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+define('REQUEST_TYPE', @$_SERVER['CONTENT_TYPE'] ?: 'text/plain');
 
 if (!function_exists('require_all')) {
 	function require_all($path, $files = []) {
