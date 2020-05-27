@@ -59,7 +59,7 @@ switch (REQUEST_METHOD) {
 		break;
 }
 
-define('IS_LOGIN', 'login' == get_action() || 'login-form' == get_view());
+// define('IS_LOGIN', 'login' == get_action() || 'login-form' == get_view());
 
 
 
@@ -75,7 +75,7 @@ if ($action = get_action()) {
 if (is_api()) {
 	if ($resource = get_resource()) {
 		if (!($view = get_view()))
-			$view = get_record_id() ? 'item' : 'index';
+			$view = controller::get_record_id() ? 'item' : 'index';
 
 		$application->renderer($resource)->render($view);
 	} else {
