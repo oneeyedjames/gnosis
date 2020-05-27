@@ -8,7 +8,7 @@ trait badge_model {
 			return $record->category_id;
 		})->toArray();
 
-		$categories = model::load('category')->get_result([
+		$categories = application::load()->model('category')->get_result([
 			'args' => ['id' => $ids]
 		])->key_map(function($category) {
 			return $category->id;
@@ -24,7 +24,7 @@ trait badge_model {
 			return $record->difficulty_id;
 		})->toArray();
 
-		$difficulties = model::load('difficulty')->get_result([
+		$difficulties = application::load()->model('difficulty')->get_result([
 			'args' => ['id' => $ids]
 		])->key_map(function($difficulty) {
 			return $difficulty->id;

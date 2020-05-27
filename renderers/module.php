@@ -34,9 +34,14 @@ class module_renderer extends renderer {
 	}
 
 	protected function get_embeds($record) {
-		$category = model::load('category')->get_record($record->category_id);
-		$difficulty = model::load('difficulty')->get_record($record->difficulty_id);
+		$embeds = parent::get_embeds($record);
 
-		return compact('category', 'difficulty');
+		if (isset($record->category))
+			$embeds['category'] = $record->category;
+
+		if (isset($record->difficulty))
+			$embeds['difficulty'] = $record->difficulty;
+
+		return $embeds;
 	}
 }

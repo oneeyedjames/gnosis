@@ -38,5 +38,5 @@ function sort_url($params, $key, $order) {
 }
 
 function build_url($params) {
-	return url_schema::load()->build($params);
+	return application::load()->router->build($params);
 }

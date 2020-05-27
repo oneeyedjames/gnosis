@@ -17,22 +17,24 @@ require_all(ROOT_PATH, [
 	'renderers/*.php'
 ]);
 
+
+
 use PHPunk\cache;
 use PHPunk\Util\object;
-
-$resources = json_decode(file_get_contents(ASSET_PATH . '/json/resources.json'));
-url_schema::init(REQUEST_HOST, $resources);
 
 $mysql = new object();
 if (is_file($config = CONFIG_PATH . '/mysql.php')) require $config;
 $tables = json_decode(file_get_contents(ASSET_PATH . '/json/tables.json'));
-database::init($mysql, $tables);
+$resources = json_decode(file_get_contents(ASSET_PATH . '/json/resources.json'));
 
-model::init(new cache());
+$application = application::load();
+$application->init_database($mysql, $tables);
+$application->init_router(REQUEST_HOST, $resources);
+$application->init_model(new cache());
 
 
 
-$params = url_schema::load()->parse_path(REQUEST_PATH);
+$params = $application->router->parse_path(REQUEST_PATH);
 foreach ($params as $key => $value)
 	$_GET[$key] = $_REQUEST[$key] = $value;
 
@@ -62,7 +64,7 @@ define('IS_LOGIN', 'login' == get_action() || 'login-form' == get_view());
 
 
 if ($action = get_action()) {
-	$params = controller::load(get_resource())->do_action($action);
+	$params = $application->controller(get_resource())->do_action($action);
 
 	if (is_array($params)) {
 		header('Location: ' . build_url($params));
@@ -75,7 +77,7 @@ if (is_api()) {
 		if (!($view = get_view()))
 			$view = get_record_id() ? 'item' : 'index';
 
-		renderer::load($resource)->render($view);
+		$application->renderer($resource)->render($view);
 	} else {
 		$view = get_view() ?: 'index';
 

@@ -3,7 +3,7 @@
 namespace LMS;
 
 function get_resource() {
-	return url_schema::load()->is_resource(@$_GET['resource']);
+	return application::load()->router->is_resource(@$_GET['resource']);
 }
 
 function get_record_id() {
@@ -11,11 +11,11 @@ function get_record_id() {
 }
 
 function get_action() {
-	return url_schema::load()->is_action(@$_GET['action'], @$_GET['resource']);
+	return application::load()->router->is_action(@$_GET['action'], @$_GET['resource']);
 }
 
 function get_view() {
-	return url_schema::load()->is_view(@$_GET['view'], @$_GET['resource']);
+	return application::load()->router->is_view(@$_GET['view'], @$_GET['resource']);
 }
 
 /**

@@ -4,7 +4,6 @@ namespace LMS\Controller;
 
 use PHPunk\Util\object;
 
-use LMS\model;
 use LMS\controller;
 
 use function LMS\get_offset;
@@ -18,9 +17,8 @@ class course_controller extends controller {
 
 		$result = $this->get_result(compact('limit', 'offset'));
 
-		$model = model::load($this->resource);
-		$model->get_categories($result);
-		$model->get_difficulties($result);
+		$this->get_categories($result);
+		$this->get_difficulties($result);
 
 		return $result;
 	}

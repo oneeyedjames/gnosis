@@ -3,8 +3,12 @@
 namespace LMS\Model;
 
 use LMS\model;
+use LMS\badge_model;
+use LMS\title_model;
 
 class module_model extends model {
+	use badge_model, title_model;
+
 	function __construct($database, $cache) {
 		parent::__construct('module', $database, $cache);
 	}
