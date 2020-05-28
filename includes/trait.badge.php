@@ -3,6 +3,11 @@
 namespace LMS;
 
 trait badge_model {
+	public function get_category(&$record) {
+		$model = application::load()->model('category');
+		$record->category = $model->get_record($record->category_id);
+	}
+
 	public function get_categories(&$records) {
 		$ids = $records->map(function($record) {
 			return $record->category_id;
@@ -17,6 +22,11 @@ trait badge_model {
 		$records->walk(function(&$record) use ($categories) {
 			$record->category = $categories[$record->category_id];
 		});
+	}
+
+	public function get_difficulty(&$record) {
+		$model = application::load()->model('difficulty');
+		$record->difficulty = $model->get_record($record->difficulty_id);
 	}
 
 	public function get_difficulties(&$records) {

@@ -18,7 +18,12 @@ class course_controller extends controller {
 
 	function api_item_view($get, $post) {
 		if ($id = self::get_record_id()) {
-			return $this->get_record($id);
+			$record = $this->get_record($id);
+
+			$this->get_category($record);
+			$this->get_difficulty($record);
+
+			return $record;
 		}
 	}
 }
