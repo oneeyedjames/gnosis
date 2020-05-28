@@ -9,10 +9,9 @@ class lesson_model extends model {
 		parent::__construct('lesson', $database, $cache);
 	}
 
-	function get_for_module($module_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
-		$args = compact('limit', 'offset');
+	function get_for_module($module_id, $args = []) {
 		$args['args'] = compact('module_id');
-		$args['sort']['position'] = 'asc';
+		$args['sort'] = ['position' => 'asc'];
 
 		return $this->get_result($args);
 	}

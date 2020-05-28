@@ -13,11 +13,10 @@ class module_model extends model {
 		parent::__construct('module', $database, $cache);
 	}
 
-	function get_for_course($course_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
-		$args = compact('limit', 'offset');
+	function get_for_course($course_id, $args = []) {
 		$args['bridge'] = 'cm_module';
-		$args['args']['cm_course'] = $course_id;
-		$args['sort']['position']  = 'asc';
+		$args['args'] = ['cm_course' => $course_id];
+		$args['sort'] = ['position' => 'asc'];
 
 		return $this->get_result($args);
 	}

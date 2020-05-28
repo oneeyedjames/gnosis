@@ -9,24 +9,32 @@ class controller extends controller_base {
 		if (method_exists($this->_model, $func))
 			return call_user_func_array([$this->_model, $func], $args);
 
-		trigger_error("Call to undefined method controller::$func()", E_USER_WARNING);
+		$class = get_class($this);
+		trigger_error("Call to undefined method $class::$func()", E_USER_WARNING);
 	}
 
 	public function get_result($args = []) {
-		$defaults = $this->get_default_args();
-		$args = array_merge($defaults, $args);
+		$args = $this->filter_args($args);
 		return $this->_model->get_result($args);
+	}
+
+	protected function filter_args($args = []) {
+		$defaults = $this->get_default_args();
+		return array_merge($defaults, $args);
 	}
 
 	protected function get_default_args() {
 		$page     = self::get_page();
 		$per_page = self::get_per_page();
+
 		$args = [
 			'limit' => $per_page,
 			'offset' => ($page - 1) * $per_page
 		];
+
 		if ($sort = self::get_sorting())
 			$args['sort'] = $sort;
+
 		return $args;
 	}
 

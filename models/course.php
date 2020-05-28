@@ -13,10 +13,10 @@ class course_model extends model {
 		parent::__construct('course', $database, $cache);
 	}
 
-	function get_prereqs($course_id, $limit = DEFAULT_PER_PAGE, $offset = 0) {
-		$args = compact('limit', 'offset');
+	function get_prereqs($course_id, $args = []) {
 		$args['bridge'] = 'cp_prereq';
-		$args['args']['cp_course'] = $course_id;
+		$args['args'] = ['cp_course' => $course_id];
+		$args['sort'] = ['title' => 'asc'];
 
 		return $this->get_result($args);
 	}
