@@ -15,7 +15,8 @@ class template extends template_base {
 				return call_user_func_array([$controller, $func], $args);
 		}
 
-		trigger_error("Call to undefined method template::$func()", E_USER_WARNING);
+		$class = get_class($this);
+		trigger_error("Call to undefined method $class::$func()", E_USER_WARNING);
 	}
 
 	public function __get($key) {
@@ -25,44 +26,18 @@ class template extends template_base {
 			return $controller->__get($key);
 		}
 
-		trigger_error("Call to undefined property template::$key", E_USER_WARNING);
+		$class = get_class($this);
+		trigger_error("Call to undefined property $class::$key", E_USER_WARNING);
 	}
 
 	public function load($view, $resource = false, $vars = []) {
-		$granted = in_array($view, [
-			'header',
-			'footer',
-			'pagination',
-			'page-limit',
-			'login-form',
-			'reset-password-form'
-		]);
+		$app = application::load();
 
-		if (!$granted && $user = get_session_user())
-			$granted = $user->has_permission($view, $resource);
+		$ctrl = $this->_controllers[] = $app->controller($resource);
+		$ctrl->pre_view($view, $vars);
 
-		if ($granted) {
-			$controller = $this->_controllers[] = controller::load($resource);
-			$controller->pre_view($view, $vars);
+		parent::load($view, $resource, $vars);
 
-			$vars['session_user'] = get_session_user();
-
-			parent::load($view, $resource, $vars);
-
-			array_pop($this->_controllers);
-		}
-	}
-
-	public function pagination($item_count, $vars = []) {
-		$vars['item_count'] = $item_count;
-
-		$this->load('pagination', false, $vars);
-	}
-
-	public function sorting($key, $title, $vars = []) {
-		$vars['title'] = $title;
-		$vars['key']   = $key;
-
-		$this->load('sorting', $this->resource, $vars);
+		array_pop($this->_controllers);
 	}
 }

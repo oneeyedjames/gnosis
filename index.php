@@ -19,7 +19,6 @@ require_all(ROOT_PATH, [
 
 
 
-use PHPunk\cache;
 use PHPunk\Util\object;
 
 $mysql = new object();
@@ -83,24 +82,22 @@ if (is_api()) {
 		$application->renderer->render($view);
 	}
 } else {
-	// $template = new template(TEMPLATE_PATH);
+	$template = new template(TEMPLATE_PATH);
 
-	// if (!is_ajax())
-	// 	$template->load('header');
+	if (!is_ajax())
+		$template->load('header');
 
 	if ($resource = get_resource()) {
 		if (!($view = get_view()))
-			$view = get_record_id() ? 'item' : 'index';
+			$view = controller::get_record_id() ? 'item' : 'index';
 
-		var_dump('VIEW', $resource, $view);
-		// $template->load($view, $resource);
+		$template->load($view, $resource);
 	} else {
 		$view = get_view() ?: 'index';
 
-		var_dump('VIEW', $view);
-		// $template->load(get_view() ?: 'index');
+		$template->load($view);
 	}
 
-	// if (!is_ajax())
-	// 	$template->load('footer');
+	if (!is_ajax())
+		$template->load('footer');
 }
