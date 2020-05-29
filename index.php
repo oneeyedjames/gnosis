@@ -39,21 +39,29 @@ foreach ($params as $key => $value)
 $_GET['ajax'] = $_REQUEST['ajax'] = @$_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
 
 switch (REQUEST_METHOD) {
+	case 'GET':
+		break;
 	case 'POST':
 	case 'PUT':
 		$data = file_get_contents('php://input');
+		$vars = [];
 
 		switch (REQUEST_TYPE) {
+			case 'application/x-www-form-urlencoded':
+				parse_str($data, $vars);
+				break;
 			case 'application/json':
-				$data = json_decode($data, true);
-
-				foreach ($data as $key => $value) {
-					$_POST[$key] = $value;
-				}
-
+				$vars = json_decode($data, true);
 				break;
 		}
 
+		foreach ($vars as $key => $value)
+			$_POST[$key] = $value;
+
+		$_GET['action'] = $_REQUEST['action'] = 'save';
+		break;
+	case 'DELETE':
+		$_GET['action'] = $_REQUEST['action'] = 'delete';
 		break;
 }
 

@@ -25,7 +25,7 @@ define('DEFAULT_PER_PAGE', 12);
 define('REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
 define('REQUEST_HOST', $_SERVER['HTTP_HOST']);
 define('REQUEST_PATH', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-define('REQUEST_TYPE', @$_SERVER['CONTENT_TYPE'] ?: 'text/plain');
+define('REQUEST_TYPE', @$_SERVER['CONTENT_TYPE'] ?: 'application/x-www-form-urlencoded');
 
 if (!function_exists('require_all')) {
 	function require_all($path, $files = []) {
