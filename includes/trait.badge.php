@@ -8,7 +8,7 @@ trait badge_model {
 		$record->category = $model->get_record($record->category_id);
 	}
 
-	public function get_categories(&$records) {
+	public function get_categories($records) {
 		$ids = $records->map(function($record) {
 			return $record->category_id;
 		})->toArray();
@@ -29,7 +29,7 @@ trait badge_model {
 		$record->difficulty = $model->get_record($record->difficulty_id);
 	}
 
-	public function get_difficulties(&$records) {
+	public function get_difficulties($records) {
 		$ids = $records->map(function($record) {
 			return $record->difficulty_id;
 		})->toArray();

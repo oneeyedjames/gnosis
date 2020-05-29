@@ -19,18 +19,4 @@ class renderer extends renderer_base {
 	protected function build_url($params) {
 		return application::load()->router->build($params);
 	}
-
-	protected function create_response($record) {
-		$response = parent::create_response($record);
-
-		if ($embeds = $this->get_embeds($record)) {
-			$response->_embeds = $embeds;
-		}
-
-		return $response;
-	}
-
-	protected function get_embeds($record) {
-		return [];
-	}
 }

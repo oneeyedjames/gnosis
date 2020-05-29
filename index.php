@@ -30,7 +30,6 @@ $resources = json_decode(file_get_contents(ASSET_PATH . '/json/resources.json'))
 $application = application::load();
 $application->init_database($mysql, $tables);
 $application->init_router(REQUEST_HOST, $resources);
-$application->init_model(new cache());
 
 
 
@@ -81,7 +80,7 @@ if (is_api()) {
 	} else {
 		$view = get_view() ?: 'index';
 
-		var_dump('API', $view);
+		$application->renderer->render($view);
 	}
 } else {
 	// $template = new template(TEMPLATE_PATH);
