@@ -85,12 +85,10 @@ if (is_api()) {
 		if (!($view = get_view()))
 			$view = controller::get_record_id() ? 'item' : 'index';
 
-		// $application->renderer($resource)->render($view);
 		$template->render($view, $resource);
 	} else {
 		$view = get_view() ?: 'index';
 
-		// $application->renderer->render($view);
 		$template->render($view);
 	}
 } else {
