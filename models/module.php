@@ -13,6 +13,13 @@ class module_model extends model {
 		parent::__construct('module', $database, $cache);
 	}
 
+	function render($record, $embedded = false) {
+		$data = parent::render($record, $embedded);
+		$data = $this->render_badge($data);
+
+		return $data;
+	}
+
 	function get_for_course($course_id, $args = []) {
 		$args['bridge'] = 'cm_module';
 		$args['args'] = ['cm_course' => $course_id];

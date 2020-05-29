@@ -21,4 +21,11 @@ class model extends model_base {
 
 		return false;
 	}
+
+	/**
+	 * TODO backport to PHPunk project
+	 */
+	public function render($record, $embedded = false) {
+		return $record->toArray();
+	}
 }

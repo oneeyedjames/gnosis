@@ -70,20 +70,22 @@ if ($action = get_action()) {
 	}
 }
 
+$template = new template(TEMPLATE_PATH);
+
 if (is_api()) {
 	if ($resource = get_resource()) {
 		if (!($view = get_view()))
 			$view = controller::get_record_id() ? 'item' : 'index';
 
-		$application->renderer($resource)->render($view);
+		// $application->renderer($resource)->render($view);
+		$template->render($view, $resource);
 	} else {
 		$view = get_view() ?: 'index';
 
-		$application->renderer->render($view);
+		// $application->renderer->render($view);
+		$template->render($view);
 	}
 } else {
-	$template = new template(TEMPLATE_PATH);
-
 	if (!is_ajax())
 		$template->load('header');
 

@@ -2,23 +2,44 @@
 
 namespace LMS\Controller;
 
+use LMS\application;
 use LMS\controller;
 
 class module_controller extends controller {
-	function api_index_view($get, $post) {
-		if ($course_id = self::get_filter('course'))
-			$result = $this->get_for_course($course_id, $this->filter_args());
-		else
-			$result = $this->get_result();
+	function index_api($vars) {
+		$result = $this->get_result();
 
-		$this->get_categories($result);
-		$this->get_difficulties($result);
+		$vars['count'] = count($result);
+		$vars['total'] = $result->found;
 
-		return $result;
+		$vars['_links'] = $this->get_result_links($result);
+		$vars['_embedded']['modules'] = $this->embed($result);
+
+		return $vars;
 	}
 
-	function api_item_view($get, $post) {
-		if ($id = self::get_record_id())
-			return $this->get_record($id);
+	function item_api($vars) {
+		if ($id = self::get_record_id()) {
+			$record = $this->get_record($id);
+
+			foreach ($this->render($record) as $field => $value)
+				$vars[$field] = $value;
+
+			$cat_ctrl = application::load()->controller('category');
+			$category = $cat_ctrl->get_record($record->category_id);
+
+			$diff_ctrl = application::load()->controller('difficulty');
+			$difficulty = $diff_ctrl->get_record($record->difficulty_id);
+
+			$les_ctrl = application::load()->controller('lesson');
+			$lessons = $les_ctrl->get_for_module($record->id);
+
+			$vars['_links'] = $this->get_record_links($record);
+			$vars['_embedded']['category'] = $cat_ctrl->embed($category, true);
+			$vars['_embedded']['difficulty'] = $diff_ctrl->embed($difficulty, true);
+			$vars['_embedded']['lessons'] = $les_ctrl->embed($lessons, true);
+
+			return $vars;
+		}
 	}
 }

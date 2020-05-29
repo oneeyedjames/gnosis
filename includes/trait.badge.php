@@ -44,4 +44,9 @@ trait badge_model {
 			$record->difficulty = $difficulties[$record->difficulty_id];
 		});
 	}
+
+	public function render_badge($record) {
+		unset($record['category_id'], $record['difficulty_id']);
+		return $record;
+	}
 }

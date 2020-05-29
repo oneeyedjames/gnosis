@@ -2,28 +2,40 @@
 
 namespace LMS\Controller;
 
-use PHPunk\Util\object;
-
+use LMS\application;
 use LMS\controller;
 
 class course_controller extends controller {
-	function api_index_view($get, $post) {
+	function index_api($vars) {
 		$result = $this->get_result();
 
-		$this->get_categories($result);
-		$this->get_difficulties($result);
+		$vars['count'] = count($result);
+		$vars['total'] = $result->found;
 
-		return $result;
+		$vars['_links'] = $this->get_result_links($result);
+		$vars['_embedded']['courses'] = $this->embed($result);
+
+		return $vars;
 	}
 
-	function api_item_view($get, $post) {
+	function item_api($vars) {
 		if ($id = self::get_record_id()) {
 			$record = $this->get_record($id);
 
-			$this->get_category($record);
-			$this->get_difficulty($record);
+			foreach ($this->render($record) as $field => $value)
+				$vars[$field] = $value;
 
-			return $record;
+			$cat_ctrl = application::load()->controller('category');
+			$category = $cat_ctrl->get_record($record->category_id);
+
+			$diff_ctrl = application::load()->controller('difficulty');
+			$difficulty = $diff_ctrl->get_record($record->difficulty_id);
+
+			$vars['_links'] = $this->get_record_links($record);
+			$vars['_embedded']['category'] = $cat_ctrl->embed($category, true);
+			$vars['_embedded']['difficulty'] = $diff_ctrl->embed($difficulty, true);
+
+			return $vars;
 		}
 	}
 }
