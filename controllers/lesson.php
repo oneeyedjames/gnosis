@@ -25,7 +25,7 @@ class lesson_controller extends controller {
 			foreach ($this->render($record) as $field => $value)
 				$vars[$field] = $value;
 
-			$ctrl = application::load()->controller('module');
+			$ctrl = $this->application->controller('module');
 			$module = $ctrl->get_record($record->module_id);
 
 			$vars['_links'] = $this->get_record_links($record);

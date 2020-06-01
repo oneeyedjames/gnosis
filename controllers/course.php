@@ -25,10 +25,10 @@ class course_controller extends controller {
 			foreach ($this->render($record) as $field => $value)
 				$vars[$field] = $value;
 
-			$cat_ctrl = application::load()->controller('category');
+			$cat_ctrl = $this->application->controller('category');
 			$category = $cat_ctrl->get_record($record->category_id);
 
-			$diff_ctrl = application::load()->controller('difficulty');
+			$diff_ctrl = $this->application->controller('difficulty');
 			$difficulty = $diff_ctrl->get_record($record->difficulty_id);
 
 			$vars['_links'] = $this->get_record_links($record);

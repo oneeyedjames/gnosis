@@ -25,13 +25,13 @@ class module_controller extends controller {
 			foreach ($this->render($record) as $field => $value)
 				$vars[$field] = $value;
 
-			$cat_ctrl = application::load()->controller('category');
+			$cat_ctrl = $this->application->controller('category');
 			$category = $cat_ctrl->get_record($record->category_id);
 
-			$diff_ctrl = application::load()->controller('difficulty');
+			$diff_ctrl = $this->application->controller('difficulty');
 			$difficulty = $diff_ctrl->get_record($record->difficulty_id);
 
-			$les_ctrl = application::load()->controller('lesson');
+			$les_ctrl = $this->application->controller('lesson');
 			$lessons = $les_ctrl->get_for_module($record->id);
 
 			$vars['_links'] = $this->get_record_links($record);

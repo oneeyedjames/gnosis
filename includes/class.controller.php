@@ -34,6 +34,15 @@ class controller extends controller_base {
 		return isset($_GET['filter'][$key]) ? $_GET['filter'][$key] : false;
 	}
 
+	public function __get($key) {
+		switch ($key) {
+			case 'application':
+				return application::load();
+			default:
+				return parent::__get($key);
+		}
+	}
+
 	public function __call($func, $args) {
 		if (method_exists($this->_model, $func))
 			return call_user_func_array([$this->_model, $func], $args);
@@ -83,7 +92,7 @@ class controller extends controller_base {
 		if (DEFAULT_PAGE == @$params['page']) unset($params['page']);
 		if (DEFAULT_PER_PAGE == @$params['per_page']) unset($params['per_page']);
 
-		return application::load()->router->build($params);
+		return $this->application->router->build($params);
 	}
 
 	/**

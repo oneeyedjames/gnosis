@@ -5,6 +5,15 @@ namespace LMS;
 use PHPunk\Component\model as model_base;
 
 class model extends model_base {
+	public function __get($key) {
+		switch ($key) {
+			case 'application':
+				return application::load();
+			default:
+				return parent::__get($key);
+		}
+	}
+
 	public function get_result($args) {
 		return $this->make_query($args)->get_result();
 	}

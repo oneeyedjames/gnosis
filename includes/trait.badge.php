@@ -4,7 +4,7 @@ namespace LMS;
 
 trait badge_model {
 	public function get_category(&$record) {
-		$model = application::load()->model('category');
+		$model = $this->application->model('category');
 		$record->category = $model->get_record($record->category_id);
 	}
 
@@ -13,7 +13,7 @@ trait badge_model {
 			return $record->category_id;
 		})->toArray();
 
-		$categories = application::load()->model('category')->get_result([
+		$categories = $this->application->model('category')->get_result([
 			'args' => ['id' => $ids]
 		])->key_map(function($category) {
 			return $category->id;
@@ -25,7 +25,7 @@ trait badge_model {
 	}
 
 	public function get_difficulty(&$record) {
-		$model = application::load()->model('difficulty');
+		$model = $this->application->model('difficulty');
 		$record->difficulty = $model->get_record($record->difficulty_id);
 	}
 
@@ -34,7 +34,7 @@ trait badge_model {
 			return $record->difficulty_id;
 		})->toArray();
 
-		$difficulties = application::load()->model('difficulty')->get_result([
+		$difficulties = $this->application->model('difficulty')->get_result([
 			'args' => ['id' => $ids]
 		])->key_map(function($difficulty) {
 			return $difficulty->id;
