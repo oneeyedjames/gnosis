@@ -11,7 +11,16 @@ function get_action() {
 }
 
 function get_view() {
-	return application::load()->router->is_view(@$_GET['view'], @$_GET['resource']);
+	$router = application::load()->router;
+
+	if ($resource = get_resource()) {
+		if ($view = $router->is_view(@$_GET['view'], $resource))
+			return $view;
+
+		return is_numeric(@$_GET['id']) ? 'item' : 'index';
+	} else {
+		return $router->is_view(@$_GET['view']) ?: 'index';
+	}
 }
 
 function is_api() {

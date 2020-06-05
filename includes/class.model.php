@@ -15,7 +15,21 @@ class model extends model_base {
 	}
 
 	public function get_result($args) {
-		return $this->make_query($args)->get_result();
+		$result = $this->make_query($args)->get_result();
+		$result->meta->resource = $this->resource;
+		$result->meta->args = $args;
+
+		return $result;
+	}
+
+	/**
+	 * Allow record retrieval from another model
+	 */
+	public function get_record($id, $resource = false) {
+		if ($resource && $resource != $this->resource)
+			return $this->application->model($resource)->get_record($id);
+
+		return parent::get_record($id);
 	}
 
 	public function put_record($record) {
@@ -29,12 +43,5 @@ class model extends model_base {
 		trigger_error('Method should be implemented in child class. model::validate()', E_USER_WARNING);
 
 		return false;
-	}
-
-	/**
-	 * TODO backport to PHPunk project
-	 */
-	public function render($record, $embedded = false) {
-		return $record->toArray();
 	}
 }

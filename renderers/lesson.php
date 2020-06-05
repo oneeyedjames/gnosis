@@ -5,9 +5,9 @@ namespace LMS\Renderer;
 use LMS\model;
 use LMS\renderer;
 
-class module_renderer extends renderer {
+class lesson_renderer extends renderer {
 	public function __construct() {
-		parent::__construct('module');
+		parent::__construct('lesson');
 	}
 
 	protected function map_field_name($field, $embedded = false) {
@@ -15,9 +15,11 @@ class module_renderer extends renderer {
 			case 'id':
 			case 'title':
 			case 'alias':
-			case 'image':
 			case 'summary':
 				return $field;
+			case 'video':
+			case 'content':
+				return $embedded ? null : $field;
 		}
 	}
 }

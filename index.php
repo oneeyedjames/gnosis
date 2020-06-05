@@ -78,34 +78,11 @@ if ($action = get_action()) {
 	}
 }
 
-$template = new template(TEMPLATE_PATH);
-
 if (is_api()) {
-	if ($resource = get_resource()) {
-		if (!($view = get_view()))
-			$view = controller::get_record_id() ? 'item' : 'index';
-
-		$template->render($view, $resource);
-	} else {
-		$view = get_view() ?: 'index';
-
-		$template->render($view);
-	}
+	$application->renderer(get_resource())->render(get_view());
 } else {
-	if (!is_ajax())
-		$template->load('header');
-
-	if ($resource = get_resource()) {
-		if (!($view = get_view()))
-			$view = controller::get_record_id() ? 'item' : 'index';
-
-		$template->load($view, $resource);
-	} else {
-		$view = get_view() ?: 'index';
-
-		$template->load($view);
-	}
-
-	if (!is_ajax())
-		$template->load('footer');
+	$template = new template(TEMPLATE_PATH);
+	if (!is_ajax()) $template->load('header');
+	$template->load(get_view(), get_resource());
+	if (!is_ajax()) $template->load('footer');
 }

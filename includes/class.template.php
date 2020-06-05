@@ -40,19 +40,4 @@ class template extends template_base {
 
 		array_pop($this->_controllers);
 	}
-
-	/**
-	 * TODO backport to PHPunk project
-	 */
-	public function render($view, $resource = false, $vars = []) {
-		$app = application::load();
-
-		$ctrl = $this->_controllers[] = $app->controller($resource);
-		$ctrl->pre_render($view, $vars);
-
-		header('Content-Type: application/hal+json');
-		echo json_encode($vars);
-
-		array_pop($this->_controllers);
-	}
 }

@@ -3,11 +3,10 @@
 namespace LMS\Model;
 
 use LMS\model;
-use LMS\badge_model;
 use LMS\title_model;
 
 class course_model extends model {
-	use badge_model, title_model;
+	use title_model;
 
 	function __construct($database, $cache) {
 		parent::__construct('course', $database, $cache);

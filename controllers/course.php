@@ -4,16 +4,13 @@ namespace LMS\Controller;
 
 use LMS\application;
 use LMS\controller;
+use LMS\renderer;
 
 class course_controller extends controller {
 	function index_api($vars) {
-		$result = $this->get_result();
-
-		$vars['count'] = count($result);
-		$vars['total'] = $result->found;
-
-		$vars['_links'] = $this->get_result_links($result);
-		$vars['_embedded']['courses'] = $this->embed($result);
+		$vars[renderer::RESULT] = $this->get_result();
+		$vars[renderer::URL_PARAMS]['page'] = self::get_page();
+		$vars[renderer::URL_PARAMS]['per_page'] = self::get_per_page();
 
 		return $vars;
 	}
@@ -22,18 +19,21 @@ class course_controller extends controller {
 		if ($id = self::get_record_id()) {
 			$record = $this->get_record($id);
 
-			foreach ($this->render($record) as $field => $value)
-				$vars[$field] = $value;
+			$category = $this->get_record($record->category_id, 'category');
+			$difficulty = $this->get_record($record->difficulty_id, 'difficulty');
 
-			$cat_ctrl = $this->application->controller('category');
-			$category = $cat_ctrl->get_record($record->category_id);
+			// $prereqs = $this->get_prereqs($record->id);
 
-			$diff_ctrl = $this->application->controller('difficulty');
-			$difficulty = $diff_ctrl->get_record($record->difficulty_id);
+			$model = $this->application->model('module');
+			$modules = $model->get_for_course($record->id);
 
-			$vars['_links'] = $this->get_record_links($record);
-			$vars['_embedded']['category'] = $cat_ctrl->embed($category, true);
-			$vars['_embedded']['difficulty'] = $diff_ctrl->embed($difficulty, true);
+			$vars[renderer::RECORD] = $record;
+			$vars[renderer::EMBEDDED] = compact(
+				'category',
+				'difficulty',
+				// 'prereqs',
+				'modules'
+			);
 
 			return $vars;
 		}

@@ -12,5 +12,11 @@
 	},
 	"lesson": {
 		"aliases": ["lessons"]
+	},
+	"category": {
+		"aliases": ["categories"]
+	},
+	"difficulty": {
+		"aliases": ["difficulties"]
 	}
 }
