@@ -2,7 +2,7 @@
 
 namespace LMS;
 
-trait request_handler {
+trait request_controller {
 	static function get_record_id() {
 		return is_numeric(@$_GET['id']) ? intval($_GET['id']) : false;
 	}

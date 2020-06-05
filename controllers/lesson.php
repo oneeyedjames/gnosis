@@ -2,7 +2,6 @@
 
 namespace LMS\Controller;
 
-use LMS\application;
 use LMS\controller;
 use LMS\renderer;
 
