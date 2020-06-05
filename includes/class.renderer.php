@@ -53,8 +53,7 @@ class renderer extends renderer_base {
 				$output->total = $result->found;
 				$output->_links = $this->get_result_links($result, $params);
 
-				// TODO allow for explicit names
-				$vars[self::EMBEDDED][$this->resource] = $result;
+				$vars[self::EMBEDDED][$this->get_result_name()] = $result;
 			} elseif ($record = @$vars[self::RECORD]) {
 				$output = $this->map_record($record);
 				$output->_links = $this->get_record_links($record);
@@ -182,5 +181,12 @@ class renderer extends renderer_base {
 		$params['api'] = true;
 
 		return ['self' => ['href' => $this->build_url($params)]];
+	}
+
+	/**
+	 * TODO backport to PHPunk project
+	 */
+	protected function get_result_name() {
+		return $this->resource;
 	}
 }

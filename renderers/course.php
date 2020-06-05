@@ -20,4 +20,8 @@ class course_renderer extends renderer {
 				return $field;
 		}
 	}
+
+	protected function get_result_name() {
+		return 'courses';
+	}
 }

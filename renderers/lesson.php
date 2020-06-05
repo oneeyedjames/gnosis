@@ -22,4 +22,8 @@ class lesson_renderer extends renderer {
 				return $embedded ? null : $field;
 		}
 	}
+
+	protected function get_result_name() {
+		return 'lessons';
+	}
 }
