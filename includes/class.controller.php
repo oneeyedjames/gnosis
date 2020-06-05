@@ -57,4 +57,19 @@ class controller extends controller_base {
 		if (method_exists($this, $method))
 			$vars = call_user_func([$this, $method], $vars);
 	}
+
+	public function index_api($vars) {
+		$vars[renderer::RESULT] = $this->get_result();
+		$vars[renderer::URL_PARAMS]['page'] = self::get_page();
+		$vars[renderer::URL_PARAMS]['per_page'] = self::get_per_page();
+
+		return $vars;
+	}
+
+	public function item_api($vars) {
+		if ($id = self::get_record_id())
+			$vars[renderer::RECORD] = $this->get_record($id);
+
+		return $vars;
+	}
 }
