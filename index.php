@@ -51,6 +51,7 @@ switch (REQUEST_METHOD) {
 				parse_str($data, $vars);
 				break;
 			case 'application/json':
+			case 'application/hal+json':
 				$vars = json_decode($data, true);
 				break;
 		}

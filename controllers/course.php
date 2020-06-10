@@ -15,12 +15,12 @@ class course_controller extends controller {
 		$vars = $this->badge_api($vars);
 
 		if ($record = @$vars[renderer::RECORD]) {
-			// $prereqs = $this->get_prereqs($record->id);
+			$prereqs = $this->get_prereqs($record->id);
 
 			$model = $this->application->model('module');
 			$modules = $model->get_for_course($record->id);
 
-			// $vars[renderer::EMBEDDED]['prereqs'] = $prereqs;
+			$vars[renderer::EMBEDDED]['prereqs'] = $prereqs;
 			$vars[renderer::EMBEDDED]['modules'] = $modules;
 		}
 

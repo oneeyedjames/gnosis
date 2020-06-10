@@ -5,7 +5,10 @@
 	},
 	"course": {
 		"aliases": ["courses"],
-		"actions": ["add-module", "remove-module"]
+		"actions": [
+			"add-prereq", "remove-prereq",
+			"add-module", "remove-module"
+		]
 	},
 	"module": {
 		"aliases": ["modules"]
