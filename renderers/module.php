@@ -10,6 +10,15 @@ class module_renderer extends renderer {
 		parent::__construct('module');
 	}
 
+	public function __get($key) {
+		switch ($key) {
+			case 'result_name':
+				return 'modules';
+			default:
+				return parent::__get($key);
+		}
+	}
+
 	protected function map_field_name($field, $embedded = false) {
 		switch ($field) {
 			case 'id':
@@ -19,9 +28,5 @@ class module_renderer extends renderer {
 			case 'summary':
 				return $field;
 		}
-	}
-
-	protected function get_result_name() {
-		return 'modules';
 	}
 }

@@ -49,15 +49,6 @@ class controller extends controller_base {
 		return $args;
 	}
 
-	/**
-	 * TODO backport to PHPunk project
-	 */
-	public function pre_render($view, &$vars) {
-		$method = str_replace('-', '_', $view) . '_api';
-		if (method_exists($this, $method))
-			$vars = call_user_func([$this, $method], $vars);
-	}
-
 	public function index_api($vars) {
 		$vars[renderer::RESULT] = $this->get_result();
 		$vars[renderer::URL_PARAMS]['page'] = self::get_page();

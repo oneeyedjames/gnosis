@@ -14,14 +14,6 @@ class model extends model_base {
 		}
 	}
 
-	public function get_result($args) {
-		$result = $this->make_query($args)->get_result();
-		$result->meta->resource = $this->resource;
-		$result->meta->args = $args;
-
-		return $result;
-	}
-
 	/**
 	 * Allow record retrieval from another model
 	 */
