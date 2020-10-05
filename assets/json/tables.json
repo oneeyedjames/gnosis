@@ -43,6 +43,12 @@
 	"user": {
 		"pkey": "id"
 	},
+	"role": {
+		"pkey": "id"
+	},
+	"perm": {
+		"pkey": "id"
+	},
 	"course_prereq": {
 		"relations": {
 			"cp_course": {
@@ -100,6 +106,30 @@
 			"ul_user": {
 				"ptable": "user",
 				"fkey": "user_id"
+			}
+		}
+	},
+	"user_role": {
+		"relations": {
+			"ur_user": {
+				"ptable": "user",
+				"fkey": "user_id"
+			},
+			"ur_role": {
+				"ptable": "role",
+				"fkey": "role_id"
+			}
+		}
+	},
+	"role_perm": {
+		"relations": {
+			"rp_role": {
+				"ptable": "role",
+				"fkey": "role_id"
+			},
+			"rp_perm": {
+				"ptable": "perm",
+				"fkey": "perm_id"
 			}
 		}
 	}
