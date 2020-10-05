@@ -1,0 +1,3 @@
+ALTER TABLE `course_prereq`
+ADD CONSTRAINT `cp_course` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+ADD CONSTRAINT `cp_prereq` FOREIGN KEY (`prereq_id`) REFERENCES `course` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
