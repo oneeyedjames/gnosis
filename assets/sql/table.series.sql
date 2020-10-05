@@ -1,0 +1,9 @@
+CREATE TABLE `series` (
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255) NOT NULL,
+	`alias` VARCHAR(255) DEFAULT NULL,
+	`image` TINYTEXT NOT NULL,
+	`summary` TEXT,
+	PRIMARY KEY (`id`),
+	UNIQUE KEY `alias` (`alias`)
+) DEFAULT CHARSET=utf8;
