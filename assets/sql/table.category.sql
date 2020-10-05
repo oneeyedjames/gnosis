@@ -1,9 +1,9 @@
 CREATE TABLE `category` (
-	`id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`parent_id` int(10) UNSIGNED DEFAULT NULL,
-	`title` varchar(255) NOT NULL,
-	`alias` varchar(255) DEFAULT NULL,
-	`summary` text,
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`parent_id` INT UNSIGNED DEFAULT NULL,
+	`title` VARCHAR(255) NOT NULL,
+	`alias` VARCHAR(255) DEFAULT NULL,
+	`summary` TEXT,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `alias` (`alias`)
 ) DEFAULT CHARSET=utf8;

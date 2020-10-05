@@ -1,8 +1,8 @@
 CREATE TABLE `difficulty` (
-	`id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-	`title` varchar(255) NOT NULL,
-	`alias` varchar(255) DEFAULT NULL,
-	`summary` text,
+	`id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255) NOT NULL,
+	`alias` VARCHAR(255) DEFAULT NULL,
+	`summary` TEXT,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `alias` (`alias`)
 ) DEFAULT CHARSET=utf8;
