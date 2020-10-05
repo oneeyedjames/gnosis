@@ -6,6 +6,7 @@ CREATE TABLE `lesson` (
 	`alias` varchar(255) DEFAULT NULL,
 	`summary` text,
 	`content` text,
+	`value` tinyint(3) UNSIGNED NOT NULL DEFAULT '1',
 	PRIMARY KEY (`id`),
 	KEY `module_id` (`module_id`),
 	UNIQUE KEY `position` (`module_id`,`position`),
