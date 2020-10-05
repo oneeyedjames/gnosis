@@ -7,5 +7,7 @@ CREATE TABLE `module` (
 	`image` tinytext NOT NULL,
 	`summary` text,
 	PRIMARY KEY (`id`),
+	KEY `category_id` (`category_id`),
+	KEY `difficulty_id` (`difficulty_id`),
 	UNIQUE KEY `alias` (`alias`)
 ) DEFAULT CHARSET=utf8;
