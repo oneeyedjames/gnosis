@@ -3,6 +3,18 @@
 		"actions": ["login", "logout", "reset-password"],
 		"views": ["login-page", "reset-password-page"]
 	},
+	"category": {
+		"aliases": ["categories"]
+	},
+	"difficulty": {
+		"aliases": ["difficulties"]
+	},
+	"series": {
+		"aliases": [],
+		"actions": [
+			"add-course", "remove-course"
+		]
+	},
 	"course": {
 		"aliases": ["courses"],
 		"actions": [
@@ -16,10 +28,7 @@
 	"lesson": {
 		"aliases": ["lessons"]
 	},
-	"category": {
-		"aliases": ["categories"]
-	},
-	"difficulty": {
-		"aliases": ["difficulties"]
+	"badge": {
+		"aliases": ["badges"]
 	}
 }
