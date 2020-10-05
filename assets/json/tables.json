@@ -5,6 +5,9 @@
 	"difficulty": {
 		"pkey": "id"
 	},
+	"series": {
+		"pkey": "id"
+	},
 	"course": {
 		"pkey": "id",
 		"relations": {
@@ -49,6 +52,18 @@
 	"perm": {
 		"pkey": "id"
 	},
+	"series_course": {
+		"relations": {
+			"sc_series": {
+				"ptable": "series",
+				"fkey": "series_id"
+			},
+			"sc_course": {
+				"ptable": "course",
+				"fkey": "course_id"
+			}
+		}
+	},
 	"course_prereq": {
 		"relations": {
 			"cp_course": {
@@ -70,6 +85,26 @@
 			"cm_module": {
 				"ptable": "module",
 				"fkey": "module_id"
+			}
+		}
+	},
+	"user_badge": {
+		"relations": {
+			"ub_user": {
+				"ptable": "user",
+				"fkey": "user_id"
+			}
+		}
+	},
+	"user_series": {
+		"relations": {
+			"us_series": {
+				"ptable": "series",
+				"fkey": "series_id"
+			},
+			"uc_user": {
+				"ptable": "user",
+				"fkey": "user_id"
 			}
 		}
 	},
