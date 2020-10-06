@@ -19,4 +19,12 @@ class course_model extends model {
 
 		return $this->get_result($args);
 	}
+
+	function get_for_series($series_id, $args = []) {
+		$args['bridge'] = 'sc_course';
+		$args['args'] = ['sc_series' => $series_id];
+		$args['sort'] = ['position' => 'asc'];
+
+		return $this->get_result($args);
+	}
 }
