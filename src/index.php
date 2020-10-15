@@ -4,7 +4,7 @@ namespace LMS;
 
 header("Access-Control-Allow-Origin: *");
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../lib/autoload.php';
 require_once __DIR__ . '/reset.php';
 
 require_all(INCLUDE_PATH, [
@@ -21,9 +21,9 @@ require_all(ROOT_PATH, [
 
 
 
-use PHPunk\Util\object;
+use PHPunk\Collection\collection;
 
-$mysql = new object();
+$mysql = new collection();
 if (is_file($config = CONFIG_PATH . '/mysql.php')) require $config;
 $tables = json_decode(file_get_contents(ASSET_PATH . '/json/tables.json'));
 $resources = json_decode(file_get_contents(ASSET_PATH . '/json/resources.json'));

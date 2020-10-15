@@ -7,8 +7,6 @@ use PHPunk\Component\renderer as renderer_base;
 use PHPunk\Database\record;
 use PHPunk\Database\result;
 
-use PHPunk\Util\object;
-
 class renderer extends renderer_base {
 	public function __get($key) {
 		switch ($key) {

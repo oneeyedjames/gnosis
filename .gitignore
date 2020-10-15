@@ -1,5 +1,7 @@
-composer.lock
+data/
+log/
 
+composer.lock
 vendor/
 
-configs/mysql.php
+src/configs/
