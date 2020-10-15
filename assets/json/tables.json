@@ -43,6 +43,19 @@
 			}
 		}
 	},
+	"badge": {
+		"pkey": "id",
+		"relations": {
+			"badge_category": {
+				"ptable": "category",
+				"fkey": "category_id"
+			},
+			"badge_difficulty": {
+				"ptable": "difficulty",
+				"fkey": "difficulty_id"
+			}
+		}
+	},
 	"user": {
 		"pkey": "id"
 	},
