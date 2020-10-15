@@ -5,10 +5,10 @@ namespace LMS\Controller;
 use LMS\controller;
 use LMS\renderer;
 
-use LMS\badge_controller;
+use LMS\badge_ctrl_trait;
 
 class course_controller extends controller {
-	use badge_controller;
+	use badge_ctrl_trait;
 
 	function item_api($vars) {
 		$vars = parent::item_api($vars);

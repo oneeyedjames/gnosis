@@ -2,7 +2,7 @@
 
 namespace LMS;
 
-trait badge_controller {
+trait badge_ctrl_trait {
 	function badge_api($vars) {
 		if ($record = @$vars[renderer::RECORD]) {
 			$category = $this->get_record($record->category_id, 'category');
