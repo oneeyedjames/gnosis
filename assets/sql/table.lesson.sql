@@ -6,9 +6,7 @@ CREATE TABLE `lesson` (
 	`alias` VARCHAR(255) DEFAULT NULL,
 	`summary` TEXT,
 	`content` TEXT,
-	`value` TINYINT UNSIGNED NOT NULL DEFAULT 1,
 	PRIMARY KEY (`id`),
-	KEY `module_id` (`module_id`),
 	UNIQUE KEY `position` (`module_id`,`position`),
 	UNIQUE KEY `alias` (`alias`)
 ) DEFAULT CHARSET=utf8;
