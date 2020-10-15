@@ -1,0 +1,41 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  height: 100vh;
+  background-color: #eee;
+}
+
+.mdc-drawer-app-content {
+  flex: auto;
+  overflow: auto;
+  position: relative;
+}
+
+.main-content {
+  overflow: auto;
+  height: 100%;
+  padding: 1.5rem;
+}
+
+.app-bar {
+  position: absolute;
+}
+
+/* .mdc-top-app-bar {
+  z-index: 7;
+} */
+
+.mdc-card {
+	margin-bottom: 1.5rem;
+}
+
+.mdc-card__content {
+	padding: 1.25rem;
+}
+
+p { margin: 1.25rem 0; }
+p:first-child { margin-top: 0; }
+p:last-child { margin-bottom: 0; }
+
+.line-2 { height: 2.5rem; overflow: hidden; }
