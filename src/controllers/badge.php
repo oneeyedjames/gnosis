@@ -15,6 +15,8 @@ class badge_controller extends controller {
 			'sort' => ['title' => 'asc']
 		]);
 
+		$this->populate($vars['badges']);
+
 		return $vars;
 	}
 
