@@ -1,24 +1,19 @@
 CREATE VIEW `user_badge` AS
-SELECT `s`.`id`, `us`.`user_id`, 'series' AS `type`,
-`s`.`title`, `s`.`alias`, `s`.`image`, `s`.`summary`,
-`us`.`score`, `us`.`total`, `us`.`percent`,
-`us`.`created_date`, `us`.`modified_date`
+SELECT `s`.`id`, `us`.`user_id`, `s`.`category_id`, `s`.`difficulty_id`,
+'series' AS `type`, `s`.`title`, `s`.`alias`, `s`.`image`, `s`.`summary`,
+`us`.`score`, `sb`.`value` AS `total`, `us`.`score` / `sb`.`value` AS `percent`
 FROM `series` AS `s`
-INNER JOIN `user_series` AS `us`
-ON `s`.`id` = `us`.`series_id`
-UNION
-SELECT `c`.`id`, `uc`.`user_id`, 'course' AS `type`,
-`c`.`title`, `c`.`alias`, `c`.`image`, `c`.`summary`,
-`uc`.`score`, `uc`.`total`, `uc`.`percent`,
-`uc`.`created_date`, `uc`.`modified_date`
+INNER JOIN `series_badge` AS `sb` ON `sb`.`series_id` = `s`.`id`
+INNER JOIN `user_series` AS `us` ON `us`.`series_id` = `s`.`id`
+UNION SELECT `c`.`id`, `uc`.`user_id`, `c`.`category_id`, `c`.`difficulty_id`,
+'course' AS `type`, `c`.`title`, `c`.`alias`, `c`.`image`, `c`.`summary`,
+`uc`.`score`, `cb`.`value` AS `total`, `uc`.`score` / `cb`.`value` AS `percent`
 FROM `course` AS `c`
-INNER JOIN `user_course` AS `uc`
-ON `c`.`id` = `uc`.`course_id`
-UNION
-SELECT `m`.`id`, `um`.`user_id`, 'module' AS `type`,
-`m`.`title`, `m`.`alias`, `m`.`image`, `m`.`summary`,
-`um`.`score`, `um`.`total`, `um`.`percent`,
-`um`.`created_date`, `um`.`modified_date`
+INNER JOIN `course_badge` AS `cb` ON `cb`.`course_id` = `c`.`id`
+INNER JOIN `user_course` AS `uc` ON `uc`.`course_id` = `c`.`id`
+UNION SELECT `m`.`id`, `um`.`user_id`, `m`.`category_id`, `m`.`difficulty_id`,
+'module' AS `type`, `m`.`title`, `m`.`alias`, `m`.`image`, `m`.`summary`,
+`um`.`score`, `mb`.`value` AS `total`, `um`.`score` / `mb`.`value` AS `percent`
 FROM `module` AS `m`
-INNER JOIN `user_module` AS `um`
-ON `m`.`id` = `um`.`module_id`;
+INNER JOIN `module_badge` AS `mb` ON `mb`.`module_id` = `m`.`id`
+INNER JOIN `user_module` AS `um` ON `um`.`module_id` = `m`.`id`;
