@@ -5,7 +5,7 @@ namespace LMS;
 use PHPunk\Component\controller as controller_base;
 
 class controller extends controller_base {
-	use request_controller;
+	use request_ctrl_trait;
 
 	public function __get($key) {
 		switch ($key) {

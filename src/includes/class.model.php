@@ -14,6 +14,13 @@ class model extends model_base {
 		}
 	}
 
+	public function get_result($args = [], $resource = false) {
+		if ($resource && $resource != $this->resource)
+			return $this->application->model($resource)->get_result($args);
+
+		return $this->make_query($args)->get_result();
+	}
+
 	/**
 	 * Allow record retrieval from another model
 	 */

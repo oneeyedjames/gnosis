@@ -2,7 +2,7 @@
 
 namespace LMS;
 
-trait title_model {
+trait title_model_trait {
 	public function generate_alias(&$record) {
 		return $record->alias = $this->sanitize($record->title);
 	}
