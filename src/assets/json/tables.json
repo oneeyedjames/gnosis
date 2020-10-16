@@ -6,7 +6,17 @@
 		"pkey": "id"
 	},
 	"series": {
-		"pkey": "id"
+		"pkey": "id",
+		"relations": {
+			"series_category": {
+				"ptable": "category",
+				"fkey": "category_id"
+			},
+			"series_difficulty": {
+				"ptable": "difficulty",
+				"fkey": "difficulty_id"
+			}
+		}
 	},
 	"course": {
 		"pkey": "id",
@@ -40,6 +50,15 @@
 			"lesson_module": {
 				"ptable": "module",
 				"fkey": "module_id"
+			}
+		}
+	},
+	"exercise": {
+		"pkey": "id",
+		"relations": {
+			"exercise_lesson": {
+				"ptable": "lesson",
+				"fkey": "lesson_id"
 			}
 		}
 	},
@@ -77,6 +96,18 @@
 			}
 		}
 	},
+	"series_module": {
+		"relations": {
+			"sm_series": {
+				"ptable": "series",
+				"fkey": "series_id"
+			},
+			"sm_module": {
+				"ptable": "module",
+				"fkey": "module_id"
+			}
+		}
+	},
 	"course_prereq": {
 		"relations": {
 			"cp_course": {
@@ -98,14 +129,6 @@
 			"cm_module": {
 				"ptable": "module",
 				"fkey": "module_id"
-			}
-		}
-	},
-	"user_badge": {
-		"relations": {
-			"ub_user": {
-				"ptable": "user",
-				"fkey": "user_id"
 			}
 		}
 	},
@@ -154,6 +177,34 @@
 			"ul_user": {
 				"ptable": "user",
 				"fkey": "user_id"
+			}
+		}
+	},
+	"user_exercise": {
+		"relations": {
+			"ue_lesson": {
+				"ptable": "exercise",
+				"fkey": "exercise_id"
+			},
+			"ue_user": {
+				"ptable": "user",
+				"fkey": "user_id"
+			}
+		}
+	},
+	"user_badge": {
+		"relations": {
+			"ub_user": {
+				"ptable": "user",
+				"fkey": "user_id"
+			},
+			"ub_category": {
+				"ptable": "category",
+				"fkey": "category_id"
+			},
+			"ub_difficulty": {
+				"ptable": "difficulty",
+				"fkey": "difficulty_id"
 			}
 		}
 	},

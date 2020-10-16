@@ -28,6 +28,9 @@
 	"lesson": {
 		"aliases": ["lessons"]
 	},
+	"exercise": {
+		"aliases": ["exercises"]
+	},
 	"badge": {
 		"aliases": ["badges"]
 	}
