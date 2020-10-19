@@ -62,6 +62,24 @@
 			}
 		}
 	},
+	"question": {
+		"pkey": "id",
+		"relations": {
+			"question_exercise": {
+				"ptable": "exercise",
+				"fkey": "exercise_id"
+			}
+		}
+	},
+	"answer": {
+		"pkey": "id",
+		"relations": {
+			"answer_question": {
+				"ptable": "question",
+				"fkey": "question_id"
+			}
+		}
+	},
 	"badge": {
 		"pkey": "id",
 		"relations": {
