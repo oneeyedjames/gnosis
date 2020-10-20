@@ -1,5 +1,6 @@
 CREATE VIEW `user_course` AS
 SELECT `ue`.`user_id`, `cm`.`course_id`,
+SUM(IF(`ue`.`complete` > 0, 1, 0)) AS `complete`,
 SUM(`ue`.`score`) AS `score`,
 MIN(`ue`.`created_date`) AS `created_date`,
 MAX(`ue`.`modified_date`) AS `modified_date`
